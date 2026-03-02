@@ -332,3 +332,71 @@ body.market {
         width: 100%;
     }
 }
+/* ================= SELLER FORM ================= */
+
+.form-card {
+    width: 450px;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-card h2 {
+    margin-bottom: 30px;
+    color: #111827;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-group input {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    transition: 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 10px rgba(37,99,235,0.3);
+}
+
+/* File input styling */
+.file-input {
+    background: #ffffff;
+    border: none;
+}
+
+.full-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

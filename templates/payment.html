@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Payment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="market">
+
+<div class="container">
+
+    <div class="card" style="max-width:500px; margin:auto;">
+
+        <h2 style="text-align:center;">Damazon Payments</h2>
+        <p style="text-align:center; margin-bottom:20px;">
+            Secure Payment Gateway
+        </p>
+
+        <h3 style="text-align:center;">₹{{ total }}</h3>
+
+        <div style="margin-top:25px;">
+
+            <button class="btn-cart" onclick="selectMethod('card')">
+                 Pay with Card
+            </button>
+
+            <button class="btn-cart" onclick="selectMethod('upi')" style="margin-top:10px;">
+                 Pay with UPI
+            </button>
+
+        </div>
+
+        <div id="payment-form" style="margin-top:25px;"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+function selectMethod(method) {
+
+    const container = document.getElementById("payment-form");
+
+    if (method === "card") {
+        container.innerHTML = `
+            <input placeholder="Card Number">
+            <input placeholder="Card Holder Name">
+            <input placeholder="Expiry MM/YY">
+            <input placeholder="CVV">
+            <button class="btn-success" onclick="processPayment()">
+                Pay ₹{{ total }}
+            </button>
+        `;
+    }
+
+    if (method === "upi") {
+        container.innerHTML = `
+            <input placeholder="Enter UPI ID (example@upi)">
+            <button class="btn-success" onclick="processPayment()">
+                Pay ₹{{ total }}
+            </button>
+        `;
+    }
+}
+
+function processPayment() {
+
+    const container = document.getElementById("payment-form");
+
+    container.innerHTML = `
+        <div style="text-align:center; padding:20px;">
+            <h3>Processing Payment...</h3>
+            <div class="loader"></div>
+        </div>
+    `;
+
+    setTimeout(() => {
+        window.location.href = "/process-payment";
+    }, 2000);
+}
+
+</script>
+
+</body>
+</html>

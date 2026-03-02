@@ -185,13 +185,31 @@ def my_orders():
 
 
 # -------------------------
-# CHECKOUT
+# CHECKOUT (SHOW PAYMENT PAGE)
 # -------------------------
 @app.route("/checkout")
 @login_required
 def checkout():
+
     if current_user.role != "buyer":
         return "Access denied"
+
+    cart_items = Cart.query.filter_by(
+        buyer_id=current_user.id
+    ).all()
+
+    if not cart_items:
+        return redirect(url_for("cart"))
+
+    total = sum(item.product.price * item.quantity for item in cart_items)
+
+    return render_template("payment.html", total=total)
+# -------------------------
+# PROCESS PAYMENT (MOCK)
+# -------------------------
+@app.route("/process-payment")
+@login_required
+def process_payment():
 
     cart_items = Cart.query.filter_by(
         buyer_id=current_user.id
@@ -204,7 +222,8 @@ def checkout():
             new_order = Order(
                 quantity=item.quantity,
                 buyer_id=current_user.id,
-                product_id=item.product.id
+                product_id=item.product.id,
+                status="Pending"
             )
 
             db.session.add(new_order)
@@ -212,7 +231,14 @@ def checkout():
     Cart.query.filter_by(buyer_id=current_user.id).delete()
     db.session.commit()
 
-    return redirect(url_for("my_orders"))
+    return redirect(url_for("payment_success"))
+# -------------------------
+# PAYMENT SUCCESS PAGE
+# -------------------------
+@app.route("/payment-success")
+@login_required
+def payment_success():
+    return render_template("payment_success.html")
 
 
 # -------------------------

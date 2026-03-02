@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Successful</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="market">
+
+<div class="container" style="text-align:center; padding-top:100px;">
+
+    <div class="card" style="max-width:500px; margin:auto; padding:40px;">
+
+        <h1 style="color:#16a34a; font-size:32px;">✔ Payment Successful</h1>
+
+        <p style="margin-top:15px; font-size:16px;">
+            Your order has been placed successfully.
+        </p>
+
+        <div style="margin-top:30px;">
+            <a href="{{ url_for('my_orders') }}">
+                <button class="btn-success">
+                    View My Orders
+                </button>
+            </a>
+        </div>
+
+        <div style="margin-top:15px;">
+            <a href="{{ url_for('damazon') }}">
+                <button class="btn-cart">
+                    Continue Shopping
+                </button>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
