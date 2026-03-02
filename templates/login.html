@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login - Damazon</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
 
-    <h2>Login</h2>
+<body class="landing">
 
-    <form method="POST">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
+    <div class="landing-wrapper">
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+        <!-- LEFT SIDE -->
+        <div class="landing-left">
 
-        <button type="submit">Login</button>
-    </form>
+            <h1>Welcome Back 👋</h1>
+            <p>Sign in to continue buying and selling with Damazon.</p>
 
-    <br>
-    <a href="/">Back to Home</a>
+            <form method="POST">
+
+                <input type="text" name="username" placeholder="Username" required>
+
+                <input type="password" name="password" placeholder="Password" required>
+
+                <button type="submit" class="landing-btn btn-primary">Login</button>
+
+            </form>
+
+            <p style="margin-top:20px;">
+                Don't have an account?
+                <a href="{{ url_for('signup') }}">Create Account</a>
+            </p>
+
+        </div>
+
+        <!-- RIGHT SIDE IMAGE -->
+        <div class="landing-right">
+            <img src="{{ url_for('static', filename='images/farmer.png') }}" 
+                 class="auth-image">
+        </div>
+
+    </div>
 
 </body>
 </html>

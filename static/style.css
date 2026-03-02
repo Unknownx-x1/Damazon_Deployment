@@ -1,0 +1,334 @@
+/* ================================================= */
+/* ================= GLOBAL RESET ================== */
+/* ================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ================================================= */
+/* =============== SPLIT AUTH PAGES ================ */
+/* ================================================= */
+
+body.landing {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+/* Main Big Card */
+.landing-wrapper {
+    width: 1150px;
+    height: 600px;
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 25px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* LEFT SIDE */
+.landing-left {
+    flex: 1;
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.landing-left h1 {
+    font-size: 38px;
+    margin-bottom: 20px;
+    color: #0f172a;
+}
+
+.landing-left p {
+    color: #64748b;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+/* Premium Inputs */
+.landing-left input,
+.landing-left select {
+    width: 320px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.landing-left input:focus,
+.landing-left select:focus {
+    outline: none;
+    border: 1px solid #2563eb;
+    box-shadow: 0 0 12px rgba(37,99,235,0.3);
+}
+
+/* Buttons */
+.landing-btn {
+    width: 320px;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(37,99,235,0.4);
+}
+
+.btn-outline {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.btn-outline:hover {
+    background-color: #cbd5e1;
+}
+
+/* RIGHT SIDE */
+.landing-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(145deg, #eef2ff, #f8fafc);
+    overflow: hidden;
+}
+
+.auth-image {
+    max-height: 90%;
+    max-width: 90%;
+    object-fit: contain;
+}
+
+/* ================================================= */
+/* ================= MARKETPLACE =================== */
+/* ================================================= */
+
+body.market {
+    background-color: #f3f4f6;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(90deg, #131921, #0f172a);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.navbar .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ff9900;
+}
+
+.navbar form {
+    flex-grow: 1;
+    margin: 0 25px;
+    display: flex;
+}
+
+.navbar input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px 0 0 6px;
+}
+
+.navbar button {
+    background-color: #febd69;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Container */
+.container {
+    padding: 40px;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+/* Cards */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+/* Price */
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #b12704;
+    margin: 10px 0;
+}
+
+/* Buttons */
+.btn-cart {
+    background-color: #ffd814;
+    border: 1px solid #fcd200;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.btn-cart:hover {
+    background-color: #f7ca00;
+}
+
+.btn-danger {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-danger:hover {
+    background-color: #b71c1c;
+}
+
+.btn-success {
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-success:hover {
+    background-color: #1b5e20;
+}
+
+/* ================================================= */
+/* ================= ORDER STATUS ================== */
+/* ================================================= */
+
+.status-pending {
+    color: #b45309;
+    font-weight: bold;
+}
+
+.status-shipped {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.status-delivered {
+    color: #16a34a;
+    font-weight: bold;
+}
+
+/* ================================================= */
+/* ================= ANIMATION ===================== */
+/* ================================================= */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================= */
+/* ================= RESPONSIVE ==================== */
+/* ================================================= */
+
+@media (max-width: 900px) {
+
+    .landing-wrapper {
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+    }
+
+    .landing-left {
+        padding: 40px;
+    }
+
+    .landing-right {
+        height: 250px;
+    }
+
+    .landing-left input,
+    .landing-left select,
+    .landing-btn {
+        width: 100%;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar form {
+        margin: 10px 0;
+        width: 100%;
+    }
+}

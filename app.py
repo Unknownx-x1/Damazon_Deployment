@@ -1,14 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from flask_login import login_user, logout_user, login_required, current_user
 from extensions import db, login_manager
+import os
 
 app = Flask(__name__)
 
+# -------------------------
 # Configuration
+# -------------------------
 app.config['SECRET_KEY'] = 'damazon-secret-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 # Initialize extensions
 db.init_app(app)
@@ -90,7 +95,7 @@ def login():
 
 
 # -------------------------
-# BUYER MARKETPLACE
+# BUYER MARKETPLACE (WITH SEARCH)
 # -------------------------
 @app.route("/damazon")
 @login_required
@@ -98,7 +103,15 @@ def damazon():
     if current_user.role != "buyer":
         return "Access denied"
 
-    products = Product.query.all()
+    search_query = request.args.get("search")
+
+    if search_query:
+        products = Product.query.filter(
+            Product.name.ilike(f"%{search_query}%")
+        ).all()
+    else:
+        products = Product.query.all()
+
     return render_template("damazon.html", products=products)
 
 
@@ -153,6 +166,8 @@ def cart():
     ).all()
 
     return render_template("cart.html", cart_items=cart_items)
+
+
 # -------------------------
 # BUYER ORDER HISTORY
 # -------------------------
@@ -195,10 +210,9 @@ def checkout():
             db.session.add(new_order)
 
     Cart.query.filter_by(buyer_id=current_user.id).delete()
-
     db.session.commit()
 
-    return redirect(url_for("damazon"))
+    return redirect(url_for("my_orders"))
 
 
 # -------------------------
@@ -223,8 +237,10 @@ def seller_dashboard():
         products=seller_products,
         orders=seller_orders
     )
+
+
 # -------------------------
-# UPDATE ORDER STATUS (SELLER ONLY)
+# UPDATE ORDER STATUS
 # -------------------------
 @app.route("/update-order/<int:order_id>/<string:new_status>")
 @login_required
@@ -238,7 +254,6 @@ def update_order(order_id, new_status):
     if not order:
         return "Order not found"
 
-    # Ensure seller owns the product
     if order.product.seller_id != current_user.id:
         return "Unauthorized action"
 
@@ -249,7 +264,7 @@ def update_order(order_id, new_status):
 
 
 # -------------------------
-# ADD PRODUCT (SELLER ONLY)
+# ADD PRODUCT (WITH IMAGE)
 # -------------------------
 @app.route("/add-product", methods=["GET", "POST"])
 @login_required
@@ -262,11 +277,24 @@ def add_product():
         price = float(request.form.get("price"))
         stock = int(request.form.get("stock"))
 
+        image_file = request.files.get("image")
+        filename = None
+
+        if image_file and image_file.filename != "":
+            filename = secure_filename(image_file.filename)
+
+            if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                os.makedirs(app.config['UPLOAD_FOLDER'])
+
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(image_path)
+
         new_product = Product(
             name=name,
             price=price,
             stock=stock,
-            seller_id=current_user.id
+            seller_id=current_user.id,
+            image=filename
         )
 
         db.session.add(new_product)
@@ -275,6 +303,35 @@ def add_product():
         return redirect(url_for("seller_dashboard"))
 
     return render_template("add_product.html")
+# -------------------------
+# DELETE PRODUCT (SELLER ONLY)
+# -------------------------
+@app.route("/delete-product/<int:product_id>")
+@login_required
+def delete_product(product_id):
+
+    if current_user.role != "seller":
+        return "Access denied"
+
+    product = Product.query.get(product_id)
+
+    if not product:
+        return "Product not found"
+
+    # Ensure seller owns this product
+    if product.seller_id != current_user.id:
+        return "Unauthorized action"
+
+    # Optional: delete related cart items first
+    Cart.query.filter_by(product_id=product.id).delete()
+
+    # Optional: delete related orders
+    Order.query.filter_by(product_id=product.id).delete()
+
+    db.session.delete(product)
+    db.session.commit()
+
+    return redirect(url_for("seller_dashboard"))
 
 
 # -------------------------

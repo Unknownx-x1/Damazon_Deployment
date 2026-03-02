@@ -2,30 +2,62 @@
 <html>
 <head>
     <title>Your Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
 
-    <h2>Your Cart 🛒</h2>
+<body class="market">
 
-    {% if cart_items %}
-        {% for item in cart_items %}
-            <div style="border:1px solid blue; padding:10px; margin:10px;">
-                <p><strong>{{ item.product.name }}</strong></p>
-                <p>Quantity: {{ item.quantity }}</p>
-                <p>Price: ₹{{ item.product.price }}</p>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">🛒 Your Cart</div>
+        <div>
+            <a href="{{ url_for('damazon') }}">Back to Marketplace</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        {% if cart_items %}
+
+        <div class="grid">
+
+            {% for item in cart_items %}
+            <div class="card">
+
+                {% if item.product.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + item.product.image) }}">
+                {% endif %}
+
+                <h3>{{ item.product.name }}</h3>
+
+                <p class="price">₹{{ item.product.price }}</p>
+
+                <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+
+                <p>
+                    <strong>Total:</strong>
+                    ₹{{ item.product.price * item.quantity }}
+                </p>
+
             </div>
-        {% endfor %}
+            {% endfor %}
 
-        <a href="{{ url_for('checkout') }}">
-            <button>Checkout</button>
-        </a>
+        </div>
 
-    {% else %}
-        <p>Your cart is empty.</p>
-    {% endif %}
+        <!-- Checkout Section -->
+        <div style="margin-top:40px; max-width:300px;">
+            <a href="{{ url_for('checkout') }}">
+                <button class="btn-success">Proceed to Checkout</button>
+            </a>
+        </div>
 
-    <br>
-    <a href="{{ url_for('damazon') }}">Back to Marketplace</a>
+        {% else %}
+            <h2>Your cart is empty 🛒</h2>
+            <a href="{{ url_for('damazon') }}">Go Shopping</a>
+        {% endif %}
+
+    </div>
 
 </body>
 </html>

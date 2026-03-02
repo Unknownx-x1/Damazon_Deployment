@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Signup - Damazon</title>
+    <title>Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
 
-    <h2>Create Account</h2>
+<body class="landing">
 
-    <form method="POST">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
+    <div class="landing-wrapper">
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+        <!-- LEFT SIDE -->
+        <div class="landing-left">
 
-        <label>Role:</label><br>
-        <select name="role" required>
-            <option value="buyer">Buyer</option>
-            <option value="seller">Seller</option>
-        </select><br><br>
+            <h1>Create Account </h1>
+            <p>Join Damazon and start your journey today.</p>
 
-        <button type="submit">Signup</button>
-    </form>
+            <form method="POST">
 
-    <br>
-    <a href="/">Back to Home</a>
+                <input type="text" name="username" placeholder="Username" required>
+
+                <input type="password" name="password" placeholder="Password" required>
+
+                <select name="role" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                </select>
+
+                <button type="submit" class="landing-btn btn-primary">Signup</button>
+
+            </form>
+
+            <p style="margin-top:20px;">
+                Already have an account?
+                <a href="{{ url_for('login') }}">Login</a>
+            </p>
+
+        </div>
+
+        <!-- RIGHT SIDE IMAGE -->
+        <div class="landing-right">
+            <img src="{{ url_for('static', filename='images/farmer.png') }}"
+                 class="auth-image">
+        </div>
+
+    </div>
 
 </body>
 </html>
