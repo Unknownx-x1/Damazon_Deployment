@@ -4,6 +4,7 @@
     <title>Damazon</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body class="market">
 
     <!-- Navbar -->
@@ -37,7 +38,9 @@
                     <p class="price">₹{{ product.price }}</p>
 
                     <p>Stock: {{ product.stock }}</p>
-                    <p style="font-size:13px; color:gray;">Sold by {{ product.seller.username }}</p>
+                    <p style="font-size:13px; color:gray;">
+                        Sold by {{ product.seller.username }}
+                    </p>
 
                     {% if product.stock > 0 %}
                         <a href="{{ url_for('add_to_cart', product_id=product.id) }}">
@@ -51,6 +54,70 @@
             {% endfor %}
         </div>
     </div>
+
+    <!-- ================= FLOATING CHATBOT ================= -->
+
+    <!-- Toggle Button -->
+    <div class="chat-toggle" onclick="toggleChat()">
+        🤖
+    </div>
+
+    <!-- Chat Window -->
+    <div id="chatbot" class="chatbot hidden">
+
+        <div class="chat-header">
+            Damazon AI
+            <span onclick="toggleChat()" class="close-btn">✖</span>
+        </div>
+
+        <div id="chat-messages" class="chat-messages"></div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chat-input"
+                   placeholder="Ask about products...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleChat() {
+            document.getElementById("chatbot").classList.toggle("hidden");
+        }
+
+        function sendMessage() {
+
+            const input = document.getElementById("chat-input");
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatBox = document.getElementById("chat-messages");
+
+            // Show user message
+            chatBox.innerHTML += `
+                <div class="msg user">${message}</div>
+            `;
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            fetch("/chatbot", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(res => res.json())
+            .then(data => {
+                chatBox.innerHTML += `
+                    <div class="msg ai">${data.reply}</div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+
+            input.value = "";
+        }
+    </script>
 
 </body>
 </html>
