@@ -1,0 +1,24 @@
+<h3>Active Orders</h3>
+
+{% if orders %}
+    {% for order in orders %}
+        <div style="border:1px solid red; padding:10px; margin:10px;">
+            <p><strong>Product:</strong> {{ order.product.name }}</p>
+            <p><strong>Buyer:</strong> {{ order.buyer.username }}</p>
+            <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+
+            {% if order.status == "Pending" %}
+                <a href="{{ url_for('update_order', order_id=order.id, new_status='Shipped') }}">
+                    <button>Mark as Shipped</button>
+                </a>
+            {% elif order.status == "Shipped" %}
+                <a href="{{ url_for('update_order', order_id=order.id, new_status='Delivered') }}">
+                    <button>Mark as Delivered</button>
+                </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No orders yet.</p>
+{% endif %}

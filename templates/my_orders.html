@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+</head>
+<body>
+
+    <h2>My Orders 📦</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div style="border:1px solid black; padding:10px; margin:10px;">
+                <p><strong>Product:</strong> {{ order.product.name }}</p>
+                <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                <p><strong>Status:</strong> {{ order.status }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have not placed any orders yet.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('damazon') }}">Back to Marketplace</a>
+
+</body>
+</html>

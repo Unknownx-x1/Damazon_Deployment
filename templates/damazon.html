@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Damazon Marketplace</title>
+</head>
+<body>
+
+    <h1>Damazon Marketplace 🌾</h1>
+
+    <!-- Navigation -->
+    <div style="margin-bottom:20px;">
+        <a href="{{ url_for('cart') }}">🛒 View Cart</a>
+        <a href="{{ url_for('my_orders') }}">📦 My Orders</a> |
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    {% if products %}
+        {% for product in products %}
+            <div style="border:1px solid green; padding:15px; margin:15px; width:300px;">
+                
+                <h3>{{ product.name }}</h3>
+                <p><strong>Price:</strong> ₹{{ product.price }}</p>
+                <p><strong>Available Stock:</strong> {{ product.stock }}</p>
+                <p><strong>Seller:</strong> {{ product.seller.username }}</p>
+
+                {% if product.stock > 0 %}
+                    <a href="{{ url_for('add_to_cart', product_id=product.id) }}">
+                        <button>Add to Cart</button>
+                    </a>
+                {% else %}
+                    <p style="color:red;"><strong>Out of Stock</strong></p>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+
+</body>
+</html>
